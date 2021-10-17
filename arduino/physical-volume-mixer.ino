@@ -1,6 +1,7 @@
 #include <LiquidCrystal.h>
 #include <SparkFun_TB6612.h>
 #include <Encoder.h>
+#include <Button.h>
 
 #define ENABLE 11
 #define DIRA 8
@@ -22,7 +23,7 @@ const int offsetA = 1;
 
 String application;
 
-Motor motor1 = Motor(DIRA, DIRB, ENABLE, offsetA, STBY);
+Motor motor1(DIRA, DIRB, ENABLE, offsetA, STBY);
 Encoder myEnc(PinCLK, PinDT);
 
 int lastPotVal = 0;
@@ -40,6 +41,8 @@ int touchTick = 0;
 
 int target = 60;
 int targetTemp = target;
+
+Button calibrateButton(13);
 
 boolean muteButtonDown = false;
 
@@ -77,6 +80,8 @@ void setup()
   pinMode(PinSW, INPUT);
   digitalWrite(PinSW, HIGH);
 
+  calibrateButton.begin();
+
   calibrate();
 
   Serial.println("INIT");
@@ -85,13 +90,16 @@ int rotaryEncoderChange = 0;
 
 void loop()
 {
-  boolean newMuteButtonDown = !digitalRead(PinSW); // == HIGH;
+  boolean newMuteButtonDown = !digitalRead(PinSW);
 
   if (!newMuteButtonDown && muteButtonDown)
   {
     Serial.println("MUTE");
   }
   muteButtonDown = newMuteButtonDown;
+
+  if (calibrateButton.pressed())
+    calibrate();
 
   long newPosition = myEnc.read();
   if (newPosition != oldPosition)
