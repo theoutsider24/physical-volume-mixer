@@ -2,6 +2,7 @@
 #include <SparkFun_TB6612.h>
 #include <Encoder.h>
 #include <Button.h>
+#include <singleLEDLibrary.h>
 
 #define ENABLE 11
 #define DIRA 8
@@ -25,6 +26,8 @@ String application;
 
 Motor motor1(DIRA, DIRB, ENABLE, offsetA, STBY);
 Encoder myEnc(PinCLK, PinDT);
+
+sllib touchSenseLED(6);
 
 int lastPotVal = 0;
 const int potPin = 8;
@@ -156,10 +159,12 @@ void loop()
     // When a touch is detected, the effect should linger
     touched = true;
     touchTick = 20;
+    touchSenseLED.setOnSingle();
   }
   if (touchTick == 0)
   {
     touched = false;
+    touchSenseLED.setOffSingle();
   }
   lastTouchSenseReading = touchSenseReading;
 
