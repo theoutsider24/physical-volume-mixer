@@ -185,7 +185,9 @@ void loop()
     motor1.brake();
     if (abs(lastPotVal - potReading) >= 2 || (lastPotVal != potReading && (potReading == 100 || potReading == 0)))
     {
-      Serial.println(potReading);
+      if (potReading >= 0 && potReading <= 100) {
+        Serial.println(potReading);
+      }
       target = potReading;
       lastPotVal = potReading;
     }

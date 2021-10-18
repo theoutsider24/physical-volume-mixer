@@ -206,7 +206,8 @@ def listen_and_respond():
                 sendState()
             elif val:
                 print(f"Incoming: {val}")
-                set_active_session_volume(int(val) / 100)
+                if 0 <= int(val) <= 100:
+                    set_active_session_volume(int(val) / 100)
             else:
                 vol = int(get_active_session_volume() * 100)
                 if vol != volume_val:
