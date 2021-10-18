@@ -9,11 +9,6 @@
 #define DIRB 9
 #define STBY 10
 
-#define DOWN 255
-#define DOWNSLOW 50
-#define UP -255
-#define UPSLOW -50
-
 const int PinCLK = 2; // Generating interrupts using CLK signal
 const int PinDT = 3;  // Reading DT signal
 const int PinSW = 12; // Reading Push Button switch
